@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Protected User Dashboard for CodeOrbit Tech Internship Task 4. Server-authorized session with live security diagnostic console.">
+  <meta name="theme-color" content="#0a0e17">
+  <!-- Aggressive anti-caching meta tags to prevent back-button stale view -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>CodeOrbit | Authenticated Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body id="dashboardPage">
+  <div class="app-container">
+    <div class="dashboard-container">
+      <!-- Dashboard Top Navigation -->
+      <nav class="dash-nav" aria-label="Dashboard navigation">
+        <div class="dash-brand">
+          <div class="dash-brand-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="M2 17l10 5 10-5"></path>
+              <path d="M2 12l10 5 10-5"></path>
+            </svg>
+          </div>
+          <span>CodeOrbit Auth</span>
+        </div>
+
+        <div class="dash-user-section">
+          <div class="dash-user-section" style="gap: 0.75rem;">
+            <div id="avatarInitials" class="user-avatar-badge">--</div>
+            <div class="user-quick-info">
+              <span id="userName" class="user-quick-name">Loading...</span>
+              <span id="userEmail" class="user-quick-email">Loading...</span>
+            </div>
+          </div>
+
+          <button id="logoutBtn" class="btn-danger" aria-label="Log out of application">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span>Log Out</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Welcome Hero Banner -->
+      <header class="dash-hero">
+        <h1 class="dash-hero-title">Welcome back, <span id="heroName">User</span>! 🎉</h1>
+        <p class="dash-hero-desc">
+          You are successfully authenticated. Your session is cryptographically signed, stored on the server via <code>session-file-store</code>, and managed via secure <code>HttpOnly</code> cookies.
+        </p>
+      </header>
+
+      <!-- Dashboard Cards Grid -->
+      <div class="dash-grid">
+        <!-- Card 1: User Profile & Identity -->
+        <section class="dash-card">
+          <div class="card-header-with-badge">
+            <div class="card-title-group">
+              <div class="card-title-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <h2 class="card-title">User Profile</h2>
+            </div>
+            <span class="pill-badge active">Active Session</span>
+          </div>
+
+          <div class="user-info-list">
+            <div class="info-row">
+              <span class="info-label">Unique User ID (UUID)</span>
+              <span id="userId" class="info-value mono">Retrieving ID...</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Account Created At</span>
+              <span id="userCreatedAt" class="info-value">Retrieving timestamp...</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Authentication Mechanism</span>
+              <span class="info-value">Server-side Express Session (FileStore)</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Client Token Exposure</span>
+              <span class="info-value" style="color: #6ee7b7; font-weight: 600;">Zero Tokens (HttpOnly Cookie Protected)</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Card 2: Interactive API Diagnostic Console -->
+        <section class="dash-card">
+          <div class="card-header-with-badge">
+            <div class="card-title-group">
+              <div class="card-title-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="4 17 10 11 4 5"></polyline>
+                  <line x1="12" y1="19" x2="20" y2="19"></line>
+                </svg>
+              </div>
+              <h2 class="card-title">API Diagnostic Console</h2>
+            </div>
+            <span id="responseStatusBadge" class="response-status status-200">Ready</span>
+          </div>
+
+          <div class="api-tester">
+            <div class="api-tester-controls">
+              <button id="testApiBtn" class="btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span>Test GET /api/auth/me</span>
+              </button>
+              <button id="verifyStorageBtn" class="btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>Audit Client Storage</span>
+              </button>
+            </div>
+
+            <div class="code-console">
+              <div class="console-meta">
+                <span>Response Payload (Safe User Projection):</span>
+                <span id="latencyBadge">-- ms</span>
+              </div>
+              <pre id="consoleOutput">Loading session telemetry...</pre>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Second Row Grid -->
+      <div class="dash-grid">
+        <!-- Card 3: Authentication Workflow Explanation -->
+        <section class="dash-card">
+          <div class="card-header-with-badge">
+            <div class="card-title-group">
+              <div class="card-title-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 14 14"></polyline>
+                </svg>
+              </div>
+              <h2 class="card-title">Authentication Workflow</h2>
+            </div>
+            <span class="pill-badge secure">Architecture</span>
+          </div>
+
+          <div class="pipeline-steps">
+            <div class="pipeline-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3 class="step-title">Credential Verification</h3>
+                <p class="step-desc">Client submits credentials over POST. The backend normalizes email and performs bcrypt hash verification with timing-attack prevention.</p>
+              </div>
+            </div>
+
+            <div class="pipeline-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3 class="step-title">Session Fixation Immunity</h3>
+                <p class="step-desc">Upon successful verification, <code>req.session.regenerate()</code> issues a completely fresh session identifier, destroying pre-auth tokens.</p>
+              </div>
+            </div>
+
+            <div class="pipeline-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3 class="step-title">Persistent File Storage</h3>
+                <p class="step-desc">The user session payload is serialized into <code>data/sessions/</code> using <code>session-file-store</code> with automatic TTL expiration.</p>
+              </div>
+            </div>
+
+            <div class="pipeline-step">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h3 class="step-title">HttpOnly Cookie Issuance</h3>
+                <p class="step-desc">A signed cookie (<code>codeorbit.sid</code>) is attached with <code>HttpOnly</code>, <code>SameSite: Lax</code>, and <code>Secure</code> flags.</p>
+              </div>
+            </div>
+
+            <div class="pipeline-step">
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <h3 class="step-title">Server-Enforced Authorization</h3>
+                <p class="step-desc">Protected routes validate sessions on the server. Aggressive <code>Cache-Control: no-store</code> headers prevent browser back-button caching.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Card 4: Enterprise Security Controls Audit -->
+        <section class="dash-card">
+          <div class="card-header-with-badge">
+            <div class="card-title-group">
+              <div class="card-title-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <h2 class="card-title">Security Controls Audit</h2>
+            </div>
+            <span class="pill-badge active">Verified</span>
+          </div>
+
+          <ul class="security-list">
+            <li class="security-item">
+              <div class="check-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Bcrypt 12-Round Password Hashing:</strong> Passwords are one-way hashed with cryptographically strong salt before saving.
+              </div>
+            </li>
+            <li class="security-item">
+              <div class="check-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Zero Plaintext Storage:</strong> Passwords never exist in plaintext, even temporarily in memory or storage logs.
+              </div>
+            </li>
+            <li class="security-item">
+              <div class="check-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Anti-Brute Force Rate Limiting:</strong> Login attempts are capped at 5 per 15-minute window per IP using <code>express-rate-limit</code>.
+              </div>
+            </li>
+            <li class="security-item">
+              <div class="check-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Generic Error Disclosures:</strong> Login failures return generic 401 messages to prevent user enumeration attacks.
+              </div>
+            </li>
+            <li class="security-item">
+              <div class="check-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Safe Projection Filtering:</strong> API endpoints strictly filter out <code>passwordHash</code> from all response payloads.
+              </div>
+            </li>
+            <li class="security-item">
+              <div class="check-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Cache-Control No-Store Protection:</strong> Authenticated views prevent browser disk caching to block back-button page retrieval after logout.
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite"></div>
+  <script src="/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Secure User Authentication Portal for CodeOrbit Tech Internship Task 4. Features bcrypt password hashing, server-side express-session, and anti-brute-force rate limiting.">
+  <meta name="theme-color" content="#0a0e17">
+  <title>CodeOrbit | Secure User Login</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <main class="auth-wrapper">
+      <div class="glass-card">
+        <!-- Brand Header -->
+        <header class="brand-header">
+          <div class="brand-badge">
+            <span class="pulse-dot"></span>
+            CodeOrbit Tech • Task 4
+          </div>
+          <h1 class="brand-title">Welcome Back</h1>
+          <p class="brand-subtitle">Enter your credentials to access your secure dashboard</p>
+        </header>
+
+        <!-- Status & Error Feedback Banner -->
+        <div id="statusBanner" class="status-banner hidden" role="alert" aria-live="polite"></div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form" novalidate>
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <div class="input-container">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="name@company.com"
+                required
+                autocomplete="email"
+                aria-required="true"
+              >
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-container">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-input has-toggle"
+                placeholder="Enter your password"
+                required
+                autocomplete="current-password"
+                aria-required="true"
+              >
+              <button
+                type="button"
+                class="password-toggle-btn"
+                data-target="password"
+                aria-label="Show password"
+                aria-pressed="false"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="submitBtn" class="btn-primary">
+            <span>Sign In to Dashboard</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Footer Navigation -->
+        <footer class="auth-footer">
+          <span>Need an account?</span>
+          <a href="/signup.html" class="auth-link">Create an account</a>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast-container" aria-live="polite"></div>
+  <script src="/script.js"></script>
+</body>
+</html>

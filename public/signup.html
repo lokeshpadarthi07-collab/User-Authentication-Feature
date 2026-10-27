@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Register a secure user account on CodeOrbit Tech Authentication Platform. Protected with bcrypt 12-round hashing and input validation.">
+  <meta name="theme-color" content="#0a0e17">
+  <title>CodeOrbit | Create an Account</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <main class="auth-wrapper">
+      <div class="glass-card">
+        <!-- Brand Header -->
+        <header class="brand-header">
+          <div class="brand-badge">
+            <span class="pulse-dot"></span>
+            CodeOrbit Tech • Task 4
+          </div>
+          <h1 class="brand-title">Create Account</h1>
+          <p class="brand-subtitle">Register to explore secure server-side session authentication</p>
+        </header>
+
+        <!-- Status & Error Feedback Banner -->
+        <div id="statusBanner" class="status-banner hidden" role="alert" aria-live="polite"></div>
+
+        <!-- Registration Form -->
+        <form id="signupForm" class="auth-form" novalidate>
+          <!-- Full Name Field -->
+          <div class="form-group">
+            <label for="name" class="form-label">Full Name</label>
+            <div class="input-container">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="form-input"
+                placeholder="Jane Doe"
+                required
+                autocomplete="name"
+                aria-required="true"
+              >
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <div class="input-container">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="jane@example.com"
+                required
+                autocomplete="email"
+                aria-required="true"
+              >
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-container">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-input has-toggle"
+                placeholder="Create a strong password"
+                required
+                autocomplete="new-password"
+                aria-required="true"
+              >
+              <button
+                type="button"
+                class="password-toggle-btn"
+                data-target="password"
+                aria-label="Show password"
+                aria-pressed="false"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Password Strength Meter -->
+            <div class="password-strength-container" aria-live="polite">
+              <div class="strength-bars">
+                <div class="strength-bar" id="bar1"></div>
+                <div class="strength-bar" id="bar2"></div>
+                <div class="strength-bar" id="bar3"></div>
+                <div class="strength-bar" id="bar4"></div>
+              </div>
+              <div class="strength-label-text">
+                <span>Password Strength:</span>
+                <span id="strengthStatusText" style="font-weight: 600;">None</span>
+              </div>
+
+              <!-- Real-time Requirements Checklist -->
+              <ul class="requirements-list">
+                <li id="req-length" class="requirement-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle></svg>
+                  <span>Min 8 characters</span>
+                </li>
+                <li id="req-upper" class="requirement-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle></svg>
+                  <span>Uppercase letter</span>
+                </li>
+                <li id="req-lower" class="requirement-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle></svg>
+                  <span>Lowercase letter</span>
+                </li>
+                <li id="req-number" class="requirement-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle></svg>
+                  <span>Number (0-9)</span>
+                </li>
+                <li id="req-special" class="requirement-item" style="grid-column: span 2;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle></svg>
+                  <span>Special character (!@#$%^&*)</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Confirm Password Field -->
+          <div class="form-group">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <div class="input-container">
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                class="form-input has-toggle"
+                placeholder="Confirm your password"
+                required
+                autocomplete="new-password"
+                aria-required="true"
+              >
+              <button
+                type="button"
+                class="password-toggle-btn"
+                data-target="confirmPassword"
+                aria-label="Show password"
+                aria-pressed="false"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="submitBtn" class="btn-primary">
+            <span>Complete Registration</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Footer Navigation -->
+        <footer class="auth-footer">
+          <span>Already registered?</span>
+          <a href="/index.html" class="auth-link">Sign in here</a>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast-container" aria-live="polite"></div>
+  <script src="/script.js"></script>
+</body>
+</html>

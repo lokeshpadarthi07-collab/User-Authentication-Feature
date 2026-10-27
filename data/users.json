@@ -1,0 +1,9 @@
+[
+  {
+    "id": "d4d415ac-a168-48be-a445-52a2414868bc",
+    "name": "john",
+    "email": "john123@gmail.com",
+    "passwordHash": "$2b$12$1UuaAZSS8/ITNtc4jbQJLuURWnrrU/E3MDIVyvO4ktv84dA3wmy4O",
+    "createdAt": "2026-10-27T14:55:16.216Z"
+  }
+]
